@@ -1,6 +1,6 @@
-package com.maven.test;
+package com.karapeno.Jserver;
 
-import com.maven.test.restful.*;
+import com.karapeno.Jserver.restful.*;
 
 import java.net.*;
 import java.io.*;
