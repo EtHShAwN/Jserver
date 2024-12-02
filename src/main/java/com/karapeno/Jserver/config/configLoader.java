@@ -1,4 +1,4 @@
-package com.karapeno.Jserver.restful;
+package com.karapeno.Jserver.config;
 
 import java.io.*;
 import java.util.Scanner;

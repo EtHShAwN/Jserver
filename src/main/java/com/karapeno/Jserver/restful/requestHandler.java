@@ -7,6 +7,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 
+import com.karapeno.Jserver.config.configLoader;
+
 public class requestHandler {
 
     public static void handleGET(String path, Socket client) {
