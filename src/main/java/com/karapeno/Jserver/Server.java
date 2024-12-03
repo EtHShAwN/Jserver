@@ -11,7 +11,11 @@ public class Server {
 	
 	public static int port = 80;
 	public static boolean signal = true;
+	public static String rootPath = null;
+	public static String indexPath = null;
 	public static int connectionCount = 0;
+	public static String host = "JServer/DEV-1.0.0";
+	public static final String version = "1.0.0-DEV";
 	public static String configPath = "config/conf.ini";
 
     public static ServerSocket createServerSocket(int port) {
@@ -99,7 +103,8 @@ public class Server {
     }
 
     public static void main(String[] args) {
-    	System.out.println("[  Log  ] Java Web Server Start");
+    	System.out.println("Jserver Version "+version);
+    	System.out.println("[  Log  ] Jserver Start");
     	configLoader.readConfig();
     	
         ServerSocket server = createServerSocket(port);
