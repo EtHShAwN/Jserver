@@ -5,7 +5,8 @@ import java.io.OutputStream;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashMap;
+
+import com.karapeno.Jserver.configLoader.configLoader;
 
 public class requestHandler {
 
@@ -14,12 +15,9 @@ public class requestHandler {
         System.out.println("[  Log  ] Client Request Resource @ " + path);
 
         String response = null;
-        HashMap<String, byte[]> map = configLoader.readConfig();
 
-        byte[] content = map.get(path);
-        if (content != null) {
-            response = new String(content);
-        } else if (!path.equals("/test")) {
+
+
             System.out.println("[  Log  ] Redirect to config/404.html");
             try {
                 BufferedReader reader = new BufferedReader(new FileReader("config/404.html"));
@@ -38,7 +36,6 @@ public class requestHandler {
             } catch (IOException e) {
                 System.err.println("[ Error ] Unable to read file: 404.html");
             }
-        }
 
         if (path.equals("/test")) {
             response = "HTTP/1.1 200 OK\r\n" +
