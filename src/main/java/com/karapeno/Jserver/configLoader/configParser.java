@@ -114,7 +114,7 @@ public class configParser {
             switch (key) {
                 case "root":
                 	if (value.charAt(value.length() - 1) != '/'){
-                		value += '\\';
+                		value += '/';
                 	}
                     Server.rootPath = value;
                     System.out.println("[  Log  ] Root set to " + Server.rootPath);
