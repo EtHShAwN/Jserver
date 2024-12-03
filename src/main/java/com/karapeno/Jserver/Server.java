@@ -1,14 +1,18 @@
 package com.karapeno.Jserver;
 
 import com.karapeno.Jserver.restful.*;
+import com.karapeno.Jserver.configLoader.*;
 
 import java.net.*;
 import java.io.*;
 
 
 public class Server {
+	
+	public static int port = 80;
 	public static boolean signal = true;
 	public static int connectionCount = 0;
+	public static String configPath = "config/conf.ini";
 
     public static ServerSocket createServerSocket(int port) {
         try {
@@ -96,7 +100,9 @@ public class Server {
 
     public static void main(String[] args) {
     	System.out.println("[  Log  ] Java Web Server Start");
-        ServerSocket server = createServerSocket(8086);
+    	configLoader.readConfig();
+    	
+        ServerSocket server = createServerSocket(port);
 
         if (server != null) {
         	while(signal) {
