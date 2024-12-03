@@ -17,18 +17,20 @@ public class requestHandler {
 	    System.out.println("[  Log  ] Client Request Resource @ " + path);
 
 	    String response = null;
+	    path.substring(1);
 	    if (!path.endsWith(".html")) {
 	        path = path + ".html";
 	    }
 
-
-	    String resource = Server.rootPath + path.substring(1);
-	    File res = new File(resource);
+	    if (Server.rootPath != null) {
+	    	path = Server.rootPath + path;
+	    }
+	    File res = new File(path);
 
 
 	    if (res.exists() && res.isFile()) {
 	        try {
-	            BufferedReader reader = new BufferedReader(new FileReader(resource));
+	            BufferedReader reader = new BufferedReader(new FileReader(path));
 	            StringBuilder fileContent = new StringBuilder();
 	            String line;
 	            while ((line = reader.readLine()) != null) {
