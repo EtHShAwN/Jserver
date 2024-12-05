@@ -50,7 +50,7 @@ public class handlePOST {
                             break;
 
                         case "application/json":
-                            System.out.println("[  Log  ]Received JSON data: " + content);
+                            System.out.println("[  Log  ] Received JSON data: " + content);
                             saveToDatabase(content,path);
                             break;
 
@@ -78,7 +78,6 @@ public class handlePOST {
 
 
     private static void saveToDatabase(String data,String path) {
-    	System.out.println(Server.POSTProxy);
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(Server.POSTProxy, true))) {
         	writer.write("["+path+"]\n");
             writer.write(data);
