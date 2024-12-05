@@ -1,51 +1,49 @@
-package com.karapeno.Jserver.restful;
+package com.karapeno.Jserver.request.restful;
 
-import java.net.Socket;
-
-import com.karapeno.Jserver.Server;
-
-import java.io.OutputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.Socket;
 
-public class requestHandler {
+import com.karapeno.Jserver.Server;
+import com.karapeno.Jserver.request.requestHandler;
 
-	public static void handleGET(String path, Socket client) {
-	    System.out.println("[  Log  ] Client sent a GET Request");
-	    System.out.println("[  Log  ] Client Request Resource @ " + path);
-
-	    String response = null;
-
-	    if (path.equals("/")) {
-	        path = "/index";
-	    }
-	    
-	    path = path.substring(1);
-
-	    
-	    if (!path.contains(".")) {
-	        path = path + ".html";
-	    }
-
-	    if (Server.rootPath != null) {
-	        path = Server.rootPath + path;
-	    }
-
-	    File res = new File(path);
-
-	    if (!res.exists()) {
-	        System.out.println("[  Log  ] Redirect to config/404.html");
-	        response = handleNotFound();
-	    } else if (res.isFile()) {
-	        response = handleFileResponse(path, res);
-	    } else {
-	        response = handleDirectoryResponse(path);
-	    }
-
-	    sendResponse(response, client);
-	}
+public class handleGET{
+	public static void handle(String path, Socket client) {
+		    System.out.println("[  Log  ] Client sent a GET Request");
+		    System.out.println("[  Log  ] Client Request Resource @ " + path);
+	
+		    String response = null;
+	
+		    if (path.equals("/")) {
+		        path = "/index";
+		    }
+		    
+		    path = path.substring(1);
+	
+		    
+		    if (!path.contains(".")) {
+		        path = path + ".html";
+		    }
+	
+		    if (Server.rootPath != null) {
+		        path = Server.rootPath + path;
+		    }
+	
+		    File res = new File(path);
+	
+		    if (!res.exists()) {
+		        System.out.println("[  Log  ] Redirect to config/404.html");
+		        response = handleNotFound();
+		    } else if (res.isFile()) {
+		        response = handleFileResponse(path, res);
+		    } else {
+		        response = handleDirectoryResponse(path);
+		    }
+	
+		    requestHandler.sendResponse(response, client);
+		}
 
 	private static String handleFileResponse(String path, File file) {
 	    StringBuilder fileContent = new StringBuilder();
@@ -57,8 +55,8 @@ public class requestHandler {
 	    } catch (IOException e) {
 	        e.printStackTrace();
 	    }
-
-
+	
+	
 	    String contentType = getContentType(path);
 	    return "HTTP/1.1 200 OK\r\n" +
 	           "Server: Jserver/1.0-DEV on " +
@@ -116,26 +114,6 @@ public class requestHandler {
 	    } else if (path.endsWith(".json")) {
 	        return "application/json";
 	    }
-	    return "application/octet-stream";  // Default to binary stream
-	}
-
-
-    public static void handlePOST(String path, Socket client) {
-        System.out.println("[  Log  ] Client sent a POST Request");
-        System.out.println("[  Log  ] Client Post Data to " + path);
-    }
-
-    private static void sendResponse(String response, Socket client) {
-        if (response == null) {
-            System.err.println("[ Error ] Response is null, cannot send response to client");
-            return;
-        }
-        try (OutputStream os = client.getOutputStream()) {
-            os.write(response.getBytes());
-            os.flush();
-            System.out.println("[  Log  ] Response sent to client");
-        } catch (IOException e) {
-            System.err.println("[ Error ] Can't initiate write pipeline: " + e.getMessage());
-        }
-    }
+	    	return "application/octet-stream";  // Default to binary stream
+		}
 }

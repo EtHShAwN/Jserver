@@ -4,4 +4,4 @@ target/
 .project
 mvnw
 mvnw.cmd
-conf/conf.ini
+config/conf.ini

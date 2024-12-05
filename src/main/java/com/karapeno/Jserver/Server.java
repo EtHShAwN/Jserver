@@ -1,9 +1,11 @@
 package com.karapeno.Jserver;
 
-import com.karapeno.Jserver.restful.*;
 import com.karapeno.Jserver.configLoader.*;
+import com.karapeno.Jserver.request.*;
 
 import java.net.*;
+import java.util.HashMap;
+import java.util.Map;
 import java.io.*;
 
 
@@ -17,6 +19,7 @@ public class Server {
 	public static String host = "JServer/DEV-1.0.0";
 	public static final String version = "1.0.0-DEV";
 	public static String configPath = "config/conf.ini";
+	public static String POSTProxy = null;
 
     public static ServerSocket createServerSocket(int port) {
         try {
@@ -90,8 +93,7 @@ public class Server {
         	requestHandler.handleGET(tokens[1],client);
             return "GET";
         } else if (method.equals("POST")) {
-        	System.out.println(data);
-        	requestHandler.handlePOST(tokens[1],client);
+        	requestHandler.handlePOST(data,client);
             return "POST";
         } else if (method.equals("PUT")) {
             return "PUT";

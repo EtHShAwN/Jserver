@@ -27,7 +27,7 @@ public class configParser {
 
     public static int parse(String conf) {
         if (conf == null || conf.isEmpty()) {
-            System.err.println("[ Error ] Invalid configuration line.");
+            System.err.println("[ Error ] < Parser >: Invalid configuration line.");
             return 0;
         }
 
@@ -82,23 +82,23 @@ public class configParser {
                     try {
                         int port = Integer.parseInt(value);
                         if (port < 0 || port > 65535) {
-                            System.err.println("[ Error ] Port Number must be in the range of [0, 65535]");
+                            System.err.println("[ Error ] < Parser >: Port Number must be in the range of [0, 65535]");
                             return 0;
                         }
                         Server.port = port;
-                        System.out.println("[  Log  ] Port Number Changed to " + port);
+                        System.out.println("[  Log  ] < Parser >: Port Number Changed to " + port);
                     } catch (NumberFormatException e) {
-                        System.err.println("[ Error ] Invalid Port Number Format");
+                        System.err.println("[ Error ] < Parser >: Invalid Port Number Format");
                         return 0;
                     }
                     break;
                 case "host":
                     if (value.charAt(0) == '"' && value.charAt(value.length() - 1) == '"') {
                         Server.host = value.substring(1, value.length() - 1).trim();
-                        System.out.println("[  Log  ] Host changed to: " + Server.host);
+                        System.out.println("[  Log  ] < Parser >: Host changed to: " + Server.host);
                     } else if ("anon".equals(value)) {
                         Server.host = null;
-                        System.out.println("[  Log  ] Host info erased");
+                        System.out.println("[  Log  ] < Parser >: Host info erased");
                     }
                     break;
             }
@@ -117,21 +117,42 @@ public class configParser {
                 		value += '/';
                 	}
                     Server.rootPath = value;
-                    System.out.println("[  Log  ] Root set to " + Server.rootPath);
+                    System.out.println("[  Log  ] < Parser >: Root set to " + Server.rootPath);
                     break;
                 case "index":
                     Server.indexPath = value;
-                    System.out.println("[  Log  ] Index set to "+ Server.indexPath);
+                    System.out.println("[  Log  ] < Parser >: Index set to "+ Server.indexPath);
                     break;
+                case "post":
+                	if(!isPathValid(value)){
+            			System.err.println("[ Error ] < Parser >: POST Proxy is not valid");
+            			return 0;
+            		}
+                	Server.POSTProxy =  value;
+                	System.out.println("[  Log  ] < Parser >: POST Proxy set to " + Server.POSTProxy);
+                	break;
             }
         }
-        File indexFile = new File(Server.rootPath + Server.indexPath);
-        if (indexFile.exists() && indexFile.isFile()) {
+
+        if (isPathValid(Server.rootPath + Server.indexPath)) {
         	Server.indexPath = Server.rootPath + Server.indexPath;
-        	System.out.println("[  Log  ] Index Page File at "+Server.indexPath);
+        	System.out.println("[  Log  ] < Parser >: Index Page File at "+Server.indexPath);
         } else {
-        	System.err.println("[ Error ] Index page doesn't exists");
+        	System.err.println("[ Error ] < Parser >: Index page doesn't exists");
         }
         return 1;
+    }
+    
+    private static boolean isPathValid(String path) {
+
+        if (path.contains("..")) {
+            return false; // fuck u bitch u have no access to the ../
+        }
+
+
+        String filePath = path;
+
+        File file = new File(filePath);
+        return file.exists() && file.isFile();
     }
 }
