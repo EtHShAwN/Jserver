@@ -1,4 +1,8 @@
 target/
 .settings/
+config/conf.ini
 .classpath
 .project
+mvnw
+mvnw.cmd
+

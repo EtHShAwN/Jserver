@@ -37,6 +37,8 @@ public class configLoader{
 		            };
 				};
 				config.close();
+				System.out.println("[  Log  ] < Parser >: Parser's job is done!");
+				System.out.println("[  Log  ] < Parser >: Pass control to Server");
 				return configState;
 			} catch ( IOException e ) {
 				System.err.println(
